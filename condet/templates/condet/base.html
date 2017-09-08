@@ -2,8 +2,6 @@
 {% load staticfiles %}
 
 
-
-
 <style>
   .form-signin {
     max-width: 550px;
@@ -12,17 +10,37 @@
   }
 
 
+
 </style>
 
 <html lang="en">
 <head>
+
+    <title>{% block title %}Investigación en Turismo | Investigadores CONDET{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}"/>
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet"
           type="text/css">
+
     {{ form.media }}
 </head>
+
 <body>
-{% block content %}{% endblock %}
+
+{% include "condet/navbar.html" %}
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+
+<!-- All that javascript -->
+
+{% block scripts %}
+{% endblock %}
 </body>
 </html>
+
