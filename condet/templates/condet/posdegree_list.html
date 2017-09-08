@@ -1,0 +1,30 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'condet/style.css' %}" />
+
+<p>
+    <a href="{% url 'condet:posdegree_create' %}">Add posdegree</a>
+</p>
+
+{% if posdegree_list %}
+<table style="width:100%">
+    <tr>
+        <th>PosDegree</th>
+        <th>Action</th>
+    </tr>
+    {% for posdegree in posdegree_list %}
+    <tr>
+        <td>
+            <a href="{% url 'condet:posdegree_detail' posdegree.id %}">{{ posdegree.name }}</a>
+        </td>
+        <td>
+            <a href="{% url 'condet:posdegree_detail' posdegree.id %}">View</a>
+            <a href="{% url 'condet:posdegree_update' posdegree.id %}">Edit</a>
+            <a href="{% url 'condet:posdegree_delete' posdegree.id %}">Delete</a>
+        </td>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No posdegree are available.</p>
+{% endif %}

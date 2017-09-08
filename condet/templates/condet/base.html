@@ -1,0 +1,28 @@
+{% load static %}
+{% load staticfiles %}
+
+
+
+
+<style>
+  .form-signin {
+    max-width: 550px;
+    padding: 15px;
+    margin: 0 auto;
+  }
+
+
+</style>
+
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet"
+          type="text/css">
+    {{ form.media }}
+</head>
+<body>
+{% block content %}{% endblock %}
+</body>
+</html>

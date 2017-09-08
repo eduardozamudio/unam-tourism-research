@@ -1,0 +1,16 @@
+<h1>{{ researcher.last_name }}, {{ researcher.first_name }}</h1>
+
+<p>
+    Courses
+</p>
+<p>Cantidad de cursos: {{ courses|length }}</p>
+
+{% for k in courses.all %}
+    <ul>
+        <li>{{ k }}</li>
+    </ul>
+{% endfor %}
+
+<p>
+    <a href="{% url 'condet:researcher_list' %}">Go back</a>
+</p>

@@ -1,0 +1,41 @@
+<h1>{{ researcher.last_name }}, {{ researcher.first_name }}</h1>
+
+{% if researcher.category != 'nan' %}
+    Category: {{ researcher.category }}
+{% else %}
+    Category: N/A
+{% endif %}
+
+<p>
+    Degree
+</p>
+
+{% if not researcher.degree.all|length_is:0 %}
+<ul>
+{% for degree in researcher.degree.all %}
+    <li>{{ degree.name }}</li>
+{% endfor %}
+</ul>
+{% else %}
+No degrees available
+{% endif %}
+
+<p>
+    PosDegree
+</p>
+{% if not researcher.pos_degree.all|length_is:0 %}
+
+    <ul>
+    {% for posdegree in researcher.pos_degree.all %}
+        <li>{{ posdegree.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+No posdegrees available
+{% endif %}
+
+<a href="{% url 'condet:researcher_courses' researcher.id %}">Go to Courses</a>
+
+<p>
+    <a href="{% url 'condet:researcher_list' %}">Go back</a>
+</p>

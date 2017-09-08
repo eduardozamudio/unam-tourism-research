@@ -1,0 +1,15 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'condet/style.css' %}" />
+
+<h1>Condet Information System</h1>
+
+Menu
+    <ul>
+        <li><a href="{% url 'condet:university_list' %}">Universities</a></li>
+        <li><a href="{% url 'condet:researcher_list' %}">Researchers</a></li>
+        <li><a href="{% url 'condet:degree_list' %}">Degrees</a></li>
+        <li><a href="{% url 'condet:posdegree_list' %}">PosDegrees</a></li>
+    </ul>
+
+<li><a href="{% url 'condet:logout' %}">Log out</a></li>

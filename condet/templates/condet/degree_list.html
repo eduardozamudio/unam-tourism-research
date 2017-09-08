@@ -1,0 +1,30 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'condet/style.css' %}" />
+
+<p>
+    <a href="{% url 'condet:degree_create' %}">Add degree</a>
+</p>
+
+{% if degree_list %}
+<table style="width:100%">
+    <tr>
+        <th>Degree</th>
+        <th>Action</th>
+    </tr>
+    {% for degree in degree_list %}
+    <tr>
+        <td>
+            <a href="{% url 'condet:degree_detail' degree.id %}">{{ degree.name }}</a>
+        </td>
+        <td>
+            <a href="{% url 'condet:degree_detail' degree.id %}">View</a>
+            <a href="{% url 'condet:degree_update' degree.id %}">Edit</a>
+            <a href="{% url 'condet:degree_delete' degree.id %}">Delete</a>
+        </td>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No degree are available.</p>
+{% endif %}

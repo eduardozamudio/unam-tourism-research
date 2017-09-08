@@ -1,0 +1,13 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'condet/style.css' %}" />
+
+{% if course_list %}
+    <ul>
+    {% for course in course_list %}
+        <li><a href="{% url 'condet:course_detail' course.id %}">{{ course.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No courses are available.</p>
+{% endif %}

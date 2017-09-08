@@ -1,0 +1,30 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'condet/style.css' %}" />
+
+<p>
+    <a href="{% url 'condet:university_create' %}">Add university</a>
+</p>
+
+{% if university_list %}
+<table style="width:100%">
+    <tr>
+        <th>Researcher</th>
+        <th>Action</th>
+    </tr>
+    {% for university in university_list %}
+    <tr>
+        <td>
+            <a href="{% url 'condet:university_detail' university.id %}">{{ university.name }}</a>
+        </td>
+        <td>
+            <a href="{% url 'condet:university_detail' university.id %}">View</a>
+            <a href="{% url 'condet:university_update' university.id %}">Edit</a>
+            <a href="{% url 'condet:university_delete' university.id %}">Delete</a>
+        </td>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No university available.</p>
+{% endif %}

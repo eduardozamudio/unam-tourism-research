@@ -1,0 +1,30 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'condet/style.css' %}" />
+
+<p>
+    <a href="{% url 'condet:researcher_create' %}">Add researcher</a>
+</p>
+
+{% if researcher_list %}
+<table style="width:100%">
+    <tr>
+        <th>Researcher</th>
+        <th>Action</th>
+    </tr>
+    {% for researcher in researcher_list %}
+    <tr>
+        <td>
+            <a href="{% url 'condet:researcher_detail' researcher.id %}">{{ researcher.last_name }}, {{ researcher.first_name }}</a>
+        </td>
+        <td>
+            <a href="{% url 'condet:researcher_detail' researcher.id %}">View</a>
+            <a href="{% url 'condet:researcher_update' researcher.id %}">Edit</a>
+            <a href="{% url 'condet:researcher_delete' researcher.id %}">Delete</a>
+        </td>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No researcher are available.</p>
+{% endif %}

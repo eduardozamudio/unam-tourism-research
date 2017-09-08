@@ -1,0 +1,18 @@
+<h1>{{ university.name }}</h1>
+
+<p>
+    Courses
+</p>
+{% if not university.courses.all|length_is:0 %}
+
+    <ul>
+    {% for c in university.courses.all %}
+        <li>{{ c.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+No courses available
+{% endif %}
+<p>
+    <a href="{% url 'condet:university_list' %}">Back</a>
+</p>
