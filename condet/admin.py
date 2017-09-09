@@ -10,17 +10,25 @@ ResearcherForm = select2_modelform(Researcher, attrs={'width': '250px'})
 class ResearcherAdmin(admin.ModelAdmin):
     form = ResearcherForm
 
+
 UniversityForm = select2_modelform(University, attrs={'width': '250px'})
 
 class UniversityAdmin(admin.ModelAdmin):
     form = UniversityForm
+
+
+CourseForm = select2_modelform(Course, attrs={'width': '250px'})
+
+class CourseAdmin(admin.ModelAdmin):
+    form = CourseForm
+
 
 admin.site.register(Researcher, ResearcherAdmin)
 admin.site.register(Degree)
 admin.site.register(PosDegree)
 
 admin.site.register(CourseTeacher)
-admin.site.register(Course)
+admin.site.register(Course, CourseAdmin)
 
 admin.site.register(Institution)
 admin.site.register(University, UniversityAdmin)
