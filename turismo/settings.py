@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'bootstrap3',
-    'crispy_forms',
     'django_select2',
     'easy_select2',
     'condet.apps.CondetConfig',
