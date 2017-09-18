@@ -33,7 +33,7 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(Institution)
 admin.site.register(University, UniversityAdmin)
 
-admin.site.register(Project)
-admin.site.register(ProjectMember)
+# admin.site.register(Project)
+# admin.site.register(ProjectMember)
 #
 #
