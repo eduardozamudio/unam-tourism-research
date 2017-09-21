@@ -3,7 +3,7 @@ from easy_select2 import select2_modelform
 
 # Register your models here
 from .models import Researcher, PosDegree, Degree, CourseTeacher, Course, Institution, University, Project, \
-    ProjectMember
+    ProjectMember, Position, PositionType, Professor
 
 ResearcherForm = select2_modelform(Researcher, attrs={'width': '250px'})
 
@@ -32,6 +32,11 @@ admin.site.register(Course, CourseAdmin)
 
 admin.site.register(Institution)
 admin.site.register(University, UniversityAdmin)
+
+admin.site.register(Position)
+admin.site.register(PositionType)
+
+admin.site.register(Professor)
 
 # admin.site.register(Project)
 # admin.site.register(ProjectMember)

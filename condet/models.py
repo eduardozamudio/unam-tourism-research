@@ -45,10 +45,30 @@ class Researcher(models.Model):
 
 ##Institution
 
+#Positions
+class Position(models.Model):
+    position = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.position
+
+class PositionType(models.Model):
+    position_type = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.position_type
+
+
+
+class ProfessorRole(models.Model):
+    role = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.role
+
 class CourseTeacher(models.Model):
     researcher = models.ForeignKey(Researcher, on_delete=models.CASCADE)
-    position = models.CharField(max_length=50)
-    position_type = models.CharField(max_length=50)
+    role = models.ForeignKey(ProfessorRole, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return '%s, %s' % (self.researcher.last_name, self.researcher.first_name)
@@ -199,3 +219,12 @@ class Project(models.Model):
         return self.title
 
 
+class Professor(models.Model):
+    researcher = models.ForeignKey(Researcher, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    position_type = models.ForeignKey(PositionType, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.researcher.__str__()
