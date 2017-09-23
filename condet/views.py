@@ -11,6 +11,9 @@ from django.forms.models import modelform_factory
 from django.forms.widgets import CheckboxSelectMultiple
 from django.forms import ModelMultipleChoiceField
 from .forms import ResearcherForm
+from rest_framework.views import APIView
+from rest_framework.response import Response
+import seaborn as sns
 
 # Create your views here.
 # def index(request):
@@ -25,13 +28,37 @@ def logout_view(request):
     context = logout(request)
     return HttpResponseRedirect(reverse_lazy('condet:index'))
 
-class IndexView(LoginRequiredMixin, generic.ListView):
-    template_name = 'condet/index.html'
-    context_object_name = 'latest_university_list'
 
-    def get_queryset(self):
-        return University.objects.all()
+class IndexView(LoginRequiredMixin, generic.View):
+    #template_name = 'condet/index.html'
 
+    def get(self, request, *args, **kwargs):
+        return render(request, 'condet/index.html')
+
+
+class ChartData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        data = {}
+        labels = []
+        items =  []
+        palette = []
+
+        uni = University.objects.all()
+        for u in uni:
+            labels.append(u.name)
+            items.append(len(u.get_posdegree_researchers()))
+
+        palette = sns.color_palette('hls', len(uni)).as_hex()
+
+        data = {
+                "labels": labels,
+                "items": items,
+                "palette": palette,
+        }
+        return Response(data)
 
 ##Researcher
 class ResearcherView(generic.DetailView):

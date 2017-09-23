@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^accounts/login/$', auth_views.LoginView.as_view(), name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^api/chart/data/$', views.ChartData.as_view(), name='api-data'),
     url(r'^researcher/(?P<pk>[0-9]+)/$', views.ResearcherView.as_view(), name='researcher_detail'),
     url(r'^researcher/$', views.ResearcherList.as_view(), name='researcher_list'),
     url(r'^researcher/add/$', views.ResearcherCreate.as_view(), name='researcher_create'),

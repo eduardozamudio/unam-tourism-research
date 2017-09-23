@@ -1,15 +1,81 @@
-{% load static %}
+{% extends 'condet/base.html' %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'condet/style.css' %}" />
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Dashboards</h1>
+</div>
 
-<h1>Condet Information System</h1>
+<div class="container">
+    <div class="col-lg-10">
+        <div class="row" >
+            <div class="col-sm-6">
+                <h2>Here goes the pie chart</h2>
+                <canvas id="myChart" width="200" height="200"></canvas>
+            </div>
+            <div class="col-sm-6">
+                <h2>Here goes the bar chart</h2>
+                <canvas id="myChart2" width="200" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <p>Here goes the Map</p>
+    </div>
+</div>
 
-Menu
-    <ul>
-        <li><a href="{% url 'condet:university_list' %}">Universities</a></li>
-        <li><a href="{% url 'condet:researcher_list' %}">Researchers</a></li>
-        <li><a href="{% url 'condet:degree_list' %}">Degrees</a></li>
-        <li><a href="{% url 'condet:posdegree_list' %}">PosDegrees</a></li>
-    </ul>
+{% endblock %}
 
-<li><a href="{% url 'condet:logout' %}">Log out</a></li>
+
+
+{% block jquery %}
+var endpoint = 'api/chart/data/'
+var items = []
+var labels = [];
+var palette = []
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.labels
+        items = data.items
+        palette = data.palette
+        setChart()
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+function setChart(){
+	var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '# of posdegree researchers',
+                    data: items,
+                    backgroundColor: palette
+                }]
+            },
+           
+        });
+
+    var ctx = document.getElementById("myChart2").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '# of posdegree researchers',
+                    data: items,
+                    backgroundColor: palette
+                }]
+            },
+           
+        });
+
+}
+
+{% endblock %}
