@@ -1,47 +1,57 @@
 {% extends 'condet/base.html' %}
 
+
+
 {% block content %}
+
+<style>
+     #map { 
+        height: 80px;
+        box-shadow: 5px 5px 5px #888;
+     }
+</style>
+
 <div class="jumbotron text-center">
     <h2># of researchers with posdegree by University</h2>
 </div>
 
 <div class="container">
-    <div class="col-lg-10">
-        <div class="row">
-            <div class="col-lg-5">
-                {# <h2>Here goes the pie chart</h2> #}
-                <canvas id="myChart" width="200" height="200"></canvas>
-            </div>
-            <div class="col-lg-5">
-                {# <h2>Here goes the bar chart</h2> #}
-                <canvas id="myChart2" width="200" height="200"></canvas>
-            </div>
-        </div>
+	<div class="row">
+	    <div class="col-lg-8">
+	        <div class="row">
+	            <div class="col-lg-6">
+	                {# <h2>Here goes the pie chart</h2> #}
+	                <canvas id="myChart" width="200" height="200"></canvas>
+	            </div>
+	            <div class="col-lg-6">
+	                {# <h2>Here goes the bar chart</h2> #}
+	                <canvas id="myChart2" width="200" height="200"></canvas>
+	            </div>
+	        </div>
 
-        <div class="row">
-        	<div class="col-lg-10">
-	        	<table class="table table-striped">
-	        		<thead>
-	        			<tr>
-	        				<th>University</th>
-	        				<th># of researchers with posdegree</th>
-	        			</tr>
-	        		</thead>
-	        		<tbody>
-	        			{% for d in data %}
-	        			<tr>
-	        				<td>{{ d.university.name }}</td>
-	        				<td>{{ d.posdegree_count }}</td>
-	        			</tr>
-	        			{% endfor %}
-	        		</tbody>
-	        	</table>
-        	</div>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <p>Here goes the Map</p>
-    </div>
+	        <div class="row">
+	            <div class="col-lg-12">
+	                <table class="table table-striped">
+	                    <thead>
+	                        <tr>
+	                            <th>University</th>
+	                            <th># of researchers with posdegree</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        {% for d in data %}
+	                        <tr>
+	                            <td>{{ d.university.name }}</td>
+	                            <td>{{ d.posdegree_count }}</td>
+	                        </tr>
+	                        {% endfor %}
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="col-md-4 embed-responsive embed-responsive-16by9" id="map" ></div>
+	</div>
 </div>
 
 {% endblock %}
@@ -69,7 +79,7 @@ $.ajax({
 })
 
 function setChart(){
-	var ctx = document.getElementById("myChart").getContext('2d');
+    var ctx = document.getElementById("myChart").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'pie',
             data: {
@@ -101,3 +111,26 @@ function setChart(){
 
 {% endblock %}
 </script>
+
+
+
+{% block scripts %}
+
+<script>
+
+var map = L.map('map').
+    setView([-40.48,-63.46], 4);
+
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+maxZoom: 5,
+id: 'mapbox.light',
+accessToken: 'pk.eyJ1IjoiZWR1YXJkb3phbXVkaW8iLCJhIjoiY2o4MDkxcWQyNHF4ajJxbnF1eTd2eHZodCJ9.CmLOoGcyk4VFE60sEaHYiw'
+ }).addTo(map);
+
+L.control.scale().addTo(map);
+
+// L.marker([-40.48,-63.46],{draggable: true}).addTo(map);
+</script>
+
+{% endblock %}
