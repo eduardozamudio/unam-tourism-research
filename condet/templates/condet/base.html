@@ -2,13 +2,13 @@
 {% load staticfiles %}
 
 
-<html lang="en">
+<html lang='en'>
 <head>
 
     <title>{% block title %}Investigación en Turismo | Investigadores CONDET{% endblock %}</title>
-    <meta name="description" content='{% block description %}{% endblock %}'/>
+    <meta name='description' content='{% block description %}{% endblock %}'/>
 
-	{% include "condet/css.html" %}
+	{% include 'condet/css.html' %}
 
     {{ form.media }}
 
@@ -16,7 +16,7 @@
 
 <body>
 
-{% include "condet/navbar.html" %}
+{% include 'condet/navbar.html' %}
 
 
 {% block content %}

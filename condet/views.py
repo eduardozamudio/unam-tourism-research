@@ -31,9 +31,22 @@ def logout_view(request):
 
 class IndexView(LoginRequiredMixin, generic.View):
     #template_name = 'condet/index.html'
+    uni = University.objects.all()
+    data = []
 
+    for u in uni:
+        data.append({
+            'university' :u, 
+            'posdegree_count' : len(u.get_posdegree_researchers())
+            })
+
+    context = {
+        'data' : data,
+    }
+    
     def get(self, request, *args, **kwargs):
-        return render(request, 'condet/index.html')
+
+        return render(request, 'condet/index.html', self.context)
 
 
 class ChartData(APIView):

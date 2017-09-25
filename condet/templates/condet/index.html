@@ -2,23 +2,44 @@
 
 {% block content %}
 <div class="jumbotron text-center">
-    <h1>Dashboards</h1>
+    <h2># of researchers with posdegree by University</h2>
 </div>
 
 <div class="container">
     <div class="col-lg-10">
-        <div class="row" >
-            <div class="col-sm-6">
-                <h2>Here goes the pie chart</h2>
+        <div class="row">
+            <div class="col-lg-5">
+                {# <h2>Here goes the pie chart</h2> #}
                 <canvas id="myChart" width="200" height="200"></canvas>
             </div>
-            <div class="col-sm-6">
-                <h2>Here goes the bar chart</h2>
+            <div class="col-lg-5">
+                {# <h2>Here goes the bar chart</h2> #}
                 <canvas id="myChart2" width="200" height="200"></canvas>
             </div>
         </div>
+
+        <div class="row">
+        	<div class="col-lg-10">
+	        	<table class="table table-striped">
+	        		<thead>
+	        			<tr>
+	        				<th>University</th>
+	        				<th># of researchers with posdegree</th>
+	        			</tr>
+	        		</thead>
+	        		<tbody>
+	        			{% for d in data %}
+	        			<tr>
+	        				<td>{{ d.university.name }}</td>
+	        				<td>{{ d.posdegree_count }}</td>
+	        			</tr>
+	        			{% endfor %}
+	        		</tbody>
+	        	</table>
+        	</div>
+        </div>
     </div>
-    <div class="col-lg-5">
+    <div class="col-lg-2">
         <p>Here goes the Map</p>
     </div>
 </div>
@@ -26,11 +47,11 @@
 {% endblock %}
 
 
-
+<script type="text/javascript">
 {% block jquery %}
-var endpoint = 'api/chart/data/'
+var endpoint = '{% url "condet:api-data" %}'
 var items = []
-var labels = [];
+var labels = []
 var palette = []
 $.ajax({
     method: "GET",
@@ -79,3 +100,4 @@ function setChart(){
 }
 
 {% endblock %}
+</script>
