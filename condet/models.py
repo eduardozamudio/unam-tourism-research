@@ -119,6 +119,8 @@ class Institution(models.Model):
 
 class University(Institution):
     courses = models.ManyToManyField(Course)
+    #longitude = models.FloatField(blank=True, null=True)
+    #latitude = models.FloatField(blank=True, null=True)
 
     def get_posdegree_researchers(self):
         result = []
