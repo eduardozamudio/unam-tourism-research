@@ -8,7 +8,7 @@
     {% leaflet_css %}
 
     <style type="text/css">
-	 .leaflet-container {  /* all maps */
+     .leaflet-container {  /* all maps */
         width:  100%;
         height: 600px;
     }
@@ -20,7 +20,7 @@
 
 
 <div class="jumbotron text-center">
-    <h2># of researchers with posdegree by University</h2>
+    <h2>Cantidad de Investigadores con POSGRADO por Universidad</h2>
 </div>
 
 <div class="container">
@@ -42,8 +42,8 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>University</th>
-                                <th># of researchers with posdegree</th>
+                                <th>Universidad</th>
+                                <th>N° de investigadores con Posgrado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -127,6 +127,25 @@ function setChart(){
 
 <script>
 
+var coordinates = [
+                        [-38.940125, -68.057358],
+                        [-38.7019785,-62.2726818],
+                        [-31.5354874,-68.5412567],
+                        [-37.3247519,-59.1268047],
+                        [-27.4348493,-55.8893415],
+                        [-34.7355252,-58.3932747],
+                        [-38.0012959,-57.56738],
+                        [-33.4880406,-66.174786],
+                        [-34.9160057,-57.9599571],
+                        [-34.7065604,-58.2807164],
+                        [-34.6085484,-58.4941223],
+                        [-34.5653496,-58.5266083],
+                        [-32.95421,-60.6616153],
+                        [-31.4354855,-64.1877642],
+                        [-45.8247241,-67.4641821]
+
+                        ];
+
 function mapInit(map, options){
     map.setView([-40.48,-63.46], 4);
 
@@ -141,7 +160,15 @@ function mapInit(map, options){
 
     L.circleMarker([-40.48,-63.46], {radius: 20}, {fill: true}).addTo(map);
 
-    L.marker([-40.48,-63.46],{draggable: true}).addTo(map);
+    
+    
+    fLen = coordinates.length;
+    
+    for (i = 0; i < fLen; i++) {
+        L.circleMarker(coordinates[i], {radius: 20}, {fill: true}).addTo(map);
+    }
+
+    // L.marker([-40.48,-63.46],{draggable: true}).addTo(map);
 }
 
 </script>
