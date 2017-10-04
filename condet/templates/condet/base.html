@@ -8,7 +8,11 @@
     <title>{% block title %}Investigación en Turismo | Investigadores CONDET{% endblock %}</title>
     <meta name='description' content='{% block description %}{% endblock %}'/>
 
+    {% block head %}
+    {% endblock %}
+
 	{% include 'condet/css.html' %}
+	
 
     {{ form.media }}
 
