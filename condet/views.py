@@ -29,7 +29,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse_lazy('condet:index'))
 
 
-class IndexView(LoginRequiredMixin, generic.View):
+class IndexView(generic.View):
     #template_name = 'condet/index.html'
     uni = University.objects.all()
     data = []
