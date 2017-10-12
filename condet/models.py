@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 import pandas as pd
+from djgeojson.fields import PointField
 
 # Create your models here.
 
@@ -118,9 +119,10 @@ class Institution(models.Model):
         return self.name
 
 class University(Institution):
-    courses = models.ManyToManyField(Course)
+    courses = models.ManyToManyField(Course, blank=True)
     #longitude = models.FloatField(blank=True, null=True)
     #latitude = models.FloatField(blank=True, null=True)
+    geom = PointField(blank=True, null=True)
 
     def get_posdegree_researchers(self):
         result = []

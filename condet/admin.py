@@ -1,5 +1,6 @@
 from django.contrib import admin
 from easy_select2 import select2_modelform
+from leaflet.admin import LeafletGeoAdmin
 
 # Register your models here
 from .models import Researcher, PosDegree, Degree, CourseTeacher, Course, Institution, University, Project, \
@@ -13,7 +14,7 @@ class ResearcherAdmin(admin.ModelAdmin):
 
 UniversityForm = select2_modelform(University, attrs={'width': '250px'})
 
-class UniversityAdmin(admin.ModelAdmin):
+class UniversityAdmin(LeafletGeoAdmin):
     form = UniversityForm
 
 

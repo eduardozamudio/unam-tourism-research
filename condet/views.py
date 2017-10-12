@@ -58,11 +58,13 @@ class ChartData(APIView):
         labels = []
         items =  []
         palette = []
+        coordinates = []
 
         uni = University.objects.all()
         for u in uni:
             labels.append(u.name)
             items.append(len(u.get_posdegree_researchers()))
+            coordinates.append(u.geom)
 
         palette = sns.color_palette('hls', len(uni)).as_hex()
 
@@ -70,6 +72,7 @@ class ChartData(APIView):
                 "labels": labels,
                 "items": items,
                 "palette": palette,
+                "coordinates": coordinates,
         }
         return Response(data)
 

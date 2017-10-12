@@ -127,26 +127,30 @@ function setChart(){
 
 <script>
 
-var coordinates = [
-                        [-38.940125, -68.057358],
-                        [-38.7019785,-62.2726818],
-                        [-31.5354874,-68.5412567],
-                        [-37.3247519,-59.1268047],
-                        [-27.4348493,-55.8893415],
-                        [-34.7355252,-58.3932747],
-                        [-38.0012959,-57.56738],
-                        [-33.4880406,-66.174786],
-                        [-34.9160057,-57.9599571],
-                        [-34.7065604,-58.2807164],
-                        [-34.6085484,-58.4941223],
-                        [-34.5653496,-58.5266083],
-                        [-32.95421,-60.6616153],
-                        [-31.4354855,-64.1877642],
-                        [-45.8247241,-67.4641821]
+// var coordinates = [
+//                         [-38.940125, -68.057358],
+//                         [-38.7019785,-62.2726818],
+//                         [-31.5354874,-68.5412567],
+//                         [-37.3247519,-59.1268047],
+//                         [-27.4348493,-55.8893415],
+//                         [-34.7355252,-58.3932747],
+//                         [-38.0012959,-57.56738],
+//                         [-33.4880406,-66.174786],
+//                         [-34.9160057,-57.9599571],
+//                         [-34.7065604,-58.2807164],
+//                         [-34.6085484,-58.4941223],
+//                         [-34.5653496,-58.5266083],
+//                         [-32.95421,-60.6616153],
+//                         [-31.4354855,-64.1877642],
+//                         [-45.8247241,-67.4641821]
 
-                        ];
+//                         ];
+
 
 function mapInit(map, options){
+    var endpoint = '{% url "condet:api-data" %}'
+
+
     map.setView([-40.48,-63.46], 4);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -158,15 +162,50 @@ function mapInit(map, options){
 
     L.control.scale().addTo(map);
 
-    L.circleMarker([-40.48,-63.46], {radius: 20}, {fill: true}).addTo(map);
+
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data){
+            // labels = data.labels
+            items = data.items
+            palette = data.palette
+            coordinates = data.coordinates
+
+            for (i = 0; i < coordinates.length; i++) {
+                
+                if (coordinates[i] != null){
+                    console.log(coordinates[i])
+                    console.log(palette[i])
+                    var coord = coordinates[i].coordinates
+                    L.circleMarker(
+                        [coord[1], coord[0]], 
+                        {
+                            radius: items[i], 
+                            fill: true, 
+                            color: palette[i],
+                        },
+                        ).addTo(map);
+                }
+            }
+            
+            // L.circleMarker([-40.48,-63.46], {radius: 20}, {fill: true}).addTo(map);
+        },
+        error: function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+    })
+
+    // L.circleMarker([-40.48,-63.46], {radius: 20}, {fill: true}).addTo(map);
 
     
     
-    fLen = coordinates.length;
+    // fLen = coordinates.length;
     
-    for (i = 0; i < fLen; i++) {
-        L.circleMarker(coordinates[i], {radius: 20}, {fill: true}).addTo(map);
-    }
+    // for (i = 0; i < fLen; i++) {
+    //     L.circleMarker(coordinates[i], {radius: 20}, {fill: true}).addTo(map);
+    // }
 
     // L.marker([-40.48,-63.46],{draggable: true}).addTo(map);
 }
