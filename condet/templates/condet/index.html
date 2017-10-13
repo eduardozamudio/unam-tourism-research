@@ -10,7 +10,7 @@
     <style type="text/css">
      .leaflet-container {  /* all maps */
         width:  100%;
-        height: 600px;
+        height: 800px;
     }
 
 </style>
@@ -59,7 +59,7 @@
             </div>
         </div>
         {# <div class="col-md-4 embed-responsive embed-responsive-16by9" id="map" ></div> #}
-        <div class="col-md-4 embed-responsive embed-responsive-16by9 ">{% leaflet_map "map" callback='mapInit' %}</div>
+        <div class="col-lg-4 embed-responsive embed-responsive-16by9 ">{% leaflet_map "map" callback='mapInit' %}</div>
     </div>
 </div>
 
@@ -151,15 +151,17 @@ function mapInit(map, options){
     var endpoint = '{% url "condet:api-data" %}'
 
 
-    map.setView([-40.48,-63.46], 4);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 5,
+    maxZoom: 8,
+    minZoom: 3,
     id: 'mapbox.light',
     accessToken: 'pk.eyJ1IjoiZWR1YXJkb3phbXVkaW8iLCJhIjoiY2o4MDkxcWQyNHF4ajJxbnF1eTd2eHZodCJ9.CmLOoGcyk4VFE60sEaHYiw'
      }).addTo(map);
 
+    map.setView([-40.48,-63.46], 4);
+    
     L.control.scale().addTo(map);
 
 
@@ -188,6 +190,7 @@ function mapInit(map, options){
                         ).addTo(map);
                 }
             }
+
             
             // L.circleMarker([-40.48,-63.46], {radius: 20}, {fill: true}).addTo(map);
         },
