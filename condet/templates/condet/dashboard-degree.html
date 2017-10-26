@@ -1,0 +1,17 @@
+{% extends 'condet/index.html' %}
+
+{% block chartTitle %}
+    <h2>Cantidad de Investigadores con GRADO por Universidad</h2>
+{% endblock %}
+
+<script type="text/javascript">
+{% block endpoint %}
+var endpoint = '{% url "condet:api-data-degree" %}'
+{% endblock%}
+</script>
+
+<script type="text/javascript">
+{% block endpoint2 %}
+var endpoint = '{% url "condet:api-data-degree" %}'
+{% endblock%}
+</script>
