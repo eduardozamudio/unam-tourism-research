@@ -30,28 +30,29 @@ def logout_view(request):
 
 
 class IndexView(generic.View):
-    #template_name = 'condet/index.html'
-    uni = University.objects.all()
-    data = []
 
-    for u in uni:
-        data.append({
-            'university' :u, 
-            'posdegree_count' : len(u.get_posdegree_researchers())
-            })
-
-    context = {
-        'data' : data,
-    }
-    
     def get(self, request, *args, **kwargs):
 
-        return render(request, 'condet/index.html', self.context)
+        return render(request, 'condet/index.html')
 
+class DashboardDegreeView(generic.View):
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request, 'condet/dashboard-degree.html')
 
 class ChartData(APIView):
     authentication_classes = []
     permission_classes = []
+
+    uni = University.objects.all()
+    endpoint = "api-data"
+
+    def get_count(self, university):
+        return len(university.get_posdegree_researchers())
+
+    def get_endpoint(self):
+        return self.endpoint
 
     def get(self, request, format=None):
         data = {}
@@ -59,11 +60,13 @@ class ChartData(APIView):
         items =  []
         palette = []
         coordinates = []
+        endpoint = self.endpoint
 
-        uni = University.objects.all()
+        uni = self.uni
+
         for u in uni:
             labels.append(u.name)
-            items.append(len(u.get_posdegree_researchers()))
+            items.append(self.get_count(u))
             coordinates.append(u.geom)
 
         palette = sns.color_palette('hls', len(uni)).as_hex()
@@ -73,8 +76,16 @@ class ChartData(APIView):
                 "items": items,
                 "palette": palette,
                 "coordinates": coordinates,
+                "endpoint": endpoint,
         }
         return Response(data)
+
+class ChartDataDegree(ChartData):
+    endpoint = "api-data-degree"
+
+    def get_count(self, university):
+        return len(university.get_degree_researchers())
+
 
 ##Researcher
 class ResearcherView(generic.DetailView):

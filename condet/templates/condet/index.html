@@ -4,14 +4,17 @@
 
 
 {% block head %}
-    {% leaflet_js %}
-    {% leaflet_css %}
+{% leaflet_js %}
+{% leaflet_css %}
 
-    <style type="text/css">
-     .leaflet-container {  /* all maps */
-        width:  100%;
-        height: 800px;
-    }
+<style type="text/css">
+.leaflet-container {  /* all maps */
+    width:  100%;
+    height: 600px;
+    /*min-height: 100%;*/
+    /*min-width: 100%;*/
+    /*display: block;*/
+}
 
 </style>
 
@@ -19,47 +22,29 @@
 {% block content %}
 
 
-<div class="jumbotron text-center">
+<div class="page-header text-center">
+    {% block chartTitle %}
     <h2>Cantidad de Investigadores con POSGRADO por Universidad</h2>
+    {% endblock %}
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-8">
-            <div class="row">
-                <div class="col-lg-6">
-                    {# <h2>Here goes the pie chart</h2> #}
-                    <canvas id="myChart" width="200" height="200"></canvas>
-                </div>
-                <div class="col-lg-6">
-                    {# <h2>Here goes the bar chart</h2> #}
-                    <canvas id="myChart2" width="200" height="200"></canvas>
-                </div>
-            </div>
-
+        <div class="col-lg-6">
             <div class="row">
                 <div class="col-lg-12">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Universidad</th>
-                                <th>N° de investigadores con Posgrado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for d in data %}
-                            <tr>
-                                <td>{{ d.university.name }}</td>
-                                <td>{{ d.posdegree_count }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <canvas id="myChart" width="200" height="100"></canvas>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <canvas id="myChart2" width="200" height="100"></canvas>
+                </div>
+            </div>
+            
         </div>
         {# <div class="col-md-4 embed-responsive embed-responsive-16by9" id="map" ></div> #}
-        <div class="col-lg-4 embed-responsive embed-responsive-16by9 ">{% leaflet_map "map" callback='mapInit' %}</div>
+        <div class="col-lg-6 leaflet-container">{% leaflet_map "map" callback='mapInit' %}</div>
     </div>
 </div>
 
@@ -68,7 +53,12 @@
 
 <script type="text/javascript">
 {% block jquery %}
+
+
+{% block endpoint %}
 var endpoint = '{% url "condet:api-data" %}'
+{% endblock%}
+
 var items = []
 var labels = []
 var palette = []
@@ -89,32 +79,37 @@ $.ajax({
 
 function setChart(){
     var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: '# of posdegree researchers',
-                    data: items,
-                    backgroundColor: palette
-                }]
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of posdegree researchers',
+                data: items,
+                backgroundColor: palette
+            }]
+        },
+        options: {
+            legend: {
+                display: true,
+                position: 'left',
             },
-           
-        });
+        },
+
+    });
 
     var ctx = document.getElementById("myChart2").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: '# of posdegree researchers',
-                    data: items,
-                    backgroundColor: palette
-                }]
-            },
-           
-        });
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of posdegree researchers',
+                data: items,
+                backgroundColor: palette
+            }]
+        },
+    });
 
 }
 
@@ -146,19 +141,21 @@ function setChart(){
 
 //                         ];
 
-
+{% block endpoint2 %}
+var endpoint = '{% url "condet:api-data" %}'
+{% endblock%}
 function mapInit(map, options){
-    var endpoint = '{% url "condet:api-data" %}'
+    
 
 
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 8,
-    minZoom: 3,
-    id: 'mapbox.light',
-    accessToken: 'pk.eyJ1IjoiZWR1YXJkb3phbXVkaW8iLCJhIjoiY2o4MDkxcWQyNHF4ajJxbnF1eTd2eHZodCJ9.CmLOoGcyk4VFE60sEaHYiw'
-     }).addTo(map);
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+        maxZoom: 8,
+        minZoom: 3,
+        id: 'mapbox.light',
+        accessToken: 'pk.eyJ1IjoiZWR1YXJkb3phbXVkaW8iLCJhIjoiY2o4MDkxcWQyNHF4ajJxbnF1eTd2eHZodCJ9.CmLOoGcyk4VFE60sEaHYiw'
+    }).addTo(map);
 
     map.setView([-40.48,-63.46], 4);
     
@@ -175,10 +172,10 @@ function mapInit(map, options){
             coordinates = data.coordinates
 
             for (i = 0; i < coordinates.length; i++) {
-                
+
                 if (coordinates[i] != null){
-                    console.log(coordinates[i])
-                    console.log(palette[i])
+                    // console.log(coordinates[i])
+                    // console.log(palette[i])
                     var coord = coordinates[i].coordinates
                     L.circleMarker(
                         [coord[1], coord[0]], 
