@@ -11,7 +11,7 @@ django-geojson==2.10.0
 django-leaflet==0.22.0
 django-rest-framework==0.1.0
 Django-Select2==5.11.1
-djangorestframework==3.6.4
+djangorestframework==3.11.2
 GDAL==2.2.1
 gunicorn==19.7.1
 idna==2.6
